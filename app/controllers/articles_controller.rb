@@ -1,12 +1,15 @@
 class ArticlesController < ApplicationController
-	http_basic_authenticate_with name: "krsnadjava", password: "rahasia", except: [:index, :show]
-	
+
 	def index
 		@articles = Article.all
 	end
 
 	def new
-		@article = Article.new
+		if(user_signed_in?)
+			@article = Article.new
+		else
+			redirect_to new_user_session_path, alert: "You're not signed in..."
+		end
 	end
 	
 	def create
@@ -24,7 +27,11 @@ class ArticlesController < ApplicationController
 	end
 
 	def edit
-		@article = Article.find(params[:id])
+		if(user_signed_in?)
+			@article = Article.find(params[:id])
+		else
+			redirect_to new_user_session_path, alert: "You're not signed in..."
+		end
 	end
 
 	def update
