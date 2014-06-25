@@ -13,8 +13,8 @@ class ArticlesController < ApplicationController
 	end
 	
 	def create
-		@article = Article.new(article_params)
- 
+		@article = current_user.articles.new(article_params)
+
   		if @article.save
   			redirect_to @article
   		else
@@ -28,7 +28,11 @@ class ArticlesController < ApplicationController
 
 	def edit
 		if(user_signed_in?)
-			@article = Article.find(params[:id])
+			if(current_user.articles.find(params[:id]).blank?)
+				@article = Article.find(params[:id])
+			else
+				@article = current_user.articles.find(params[:id])
+			end
 		else
 			redirect_to new_user_session_path, alert: "You're not signed in..."
 		end
@@ -45,10 +49,19 @@ class ArticlesController < ApplicationController
   	end
 
   	def destroy
-  		@article = Article.find(params[:id])
-  		@article.destroy
- 
-  		redirect_to articles_path
+  		if(user_signed_in?)
+  			if(!current_user.articles.find(params[:id]).blank?)
+				@article = current_user.articles.find(params[:id])
+
+  				if @article.destroy
+  					redirect_to articles_path
+  				else
+  					redirect_to articles_path, alert: "Failed to destroy article"
+  				end
+			end
+		else
+			redirect_to new_user_session_path, alert: "You're not signed in..."
+		end
 	end
 
 	private
