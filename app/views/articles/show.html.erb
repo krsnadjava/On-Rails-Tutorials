@@ -8,6 +8,11 @@
 	<%= @article.text %>
 </p>
 
+<p>
+	<strong>Owner:</strong>
+	<%= User.find(@article.user_id).email %>
+</p>
+
 <hr>
 
 <h2>Comments</h2>

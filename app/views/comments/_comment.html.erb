@@ -1,20 +1,61 @@
-<p>
-  <strong>Commenter:</strong>
-  <%= comment.commenter %>
-</p>
- 
-<p>
-  <strong>Comment:</strong>
-  <%= comment.body %>
-</p>
+<% 
+if(user_signed_in?) %>
+  <%
+  if(comment.approved == 1 || comment.article.user_id == current_user.id || comment.user_id == current_user.id) %>
+    <%
+    if(comment.approved == 0 && comment.user_id == current_user.id) %>
+      <p style="color: green"><i>This comment wasn't approved yet by article owner...</i></p>
+    <%
+    elsif (comment.approved == 0) %>
+      <p style="color: green"><i>New comment!</i></p>
+    <%
+    end %>
 
-<p>
-  <%= 
-    if(user_signed_in?)
-  	  if(comment.user_id == current_user.id)
-  	    link_to 'Destroy Comment', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }
-      end
-    end 
-  %>
-</p>
-<hr>
+    <p>
+      <strong>Commenter:</strong>
+      <%= comment.commenter %> (<%= User.find(comment.user_id).email %>)
+    </p>
+ 
+    <p>
+      <strong>Comment:</strong>
+      <%= comment.body %>
+    </p>
+
+    <p>
+      <%
+      if(user_signed_in?)
+        if(comment.approved == 0 && comment.article.user_id == current_user.id) %>
+          <%=
+            link_to 'Reject', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }
+          %><br>
+        <%
+        elsif(comment.user_id == current_user.id) %>
+          <%=
+            link_to 'Delete Comment', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }
+          %><br>
+        <%
+        end
+      end %>
+      <%
+      if(user_signed_in?)
+        if(comment.approved == 0 && comment.article.user_id == current_user.id) %>
+        <%= link_to 'Approve', [comment.article, comment], method: :patch %>
+        <%
+        end
+      end %>
+    </p><hr>
+
+  <%
+  end
+elsif(comment.approved == 1) %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+ 
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p><hr>
+<%
+end %>
