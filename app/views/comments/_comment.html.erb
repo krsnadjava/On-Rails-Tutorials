@@ -4,10 +4,14 @@ if(user_signed_in?) %>
   if(comment.approved == 1 || comment.article.user_id == current_user.id || comment.user_id == current_user.id) %>
     <%
     if(comment.approved == 0 && comment.user_id == current_user.id) %>
-      <p style="color: green"><i>This comment wasn't approved yet by article owner...</i></p>
+      <div class="alert alert-success">
+        <p>This comment wasn't approved yet by article owner...</p>
+      </div>
     <%
     elsif (comment.approved == 0) %>
-      <p style="color: green"><i>New comment!</i></p>
+      <div class="alert alert-info">
+        <p><strong>Heads up!</strong> You've got a new comment.</p>
+      </div>
     <%
     end %>
 

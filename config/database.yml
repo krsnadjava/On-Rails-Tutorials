@@ -13,7 +13,7 @@ development:
   host: localhost
   username: krsnadjava
   password: 
-  adapter: postgresql
+  adapter: sqlite3
   encoding: utf8
   database: plugs_development
 
