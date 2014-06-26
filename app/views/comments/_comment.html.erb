@@ -10,10 +10,10 @@
 
 <p>
   <%= 
-  	if(comment.user_id == current_user.id)
-  	link_to 'Destroy Comment', [comment.article, comment],
-               method: :delete,
-               data: { confirm: 'Are you sure?' }
+    if(user_signed_in?)
+  	  if(comment.user_id == current_user.id)
+  	    link_to 'Destroy Comment', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }
+      end
     end 
   %>
 </p>
