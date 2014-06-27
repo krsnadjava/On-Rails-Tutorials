@@ -4,7 +4,7 @@ class Article < ActiveRecord::Base
 	validates :title, presence: true,
                     length: { minimum: 5 }
     
-    has_attached_file :thumbnail, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+    has_attached_file :thumbnail, :styles => { :small => "150x150>" }
     validates_attachment :thumbnail, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif"] }
 
     def method1

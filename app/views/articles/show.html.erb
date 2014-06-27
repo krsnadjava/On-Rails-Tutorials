@@ -11,7 +11,7 @@
 	<i>Created by : <%= User.find(@article.user_id).email %></i>
 </p>
 
-<%= image_tag @article.thumbnail.url %>
+<%= image_tag @article.thumbnail.url(:small) %>
 
 <p>
 	<%= @article.text %>
@@ -20,7 +20,11 @@
 <hr>
 
 <h2>Comments</h2>
+<% if(!@article.comments.blank?) %>
 <%= render @article.comments %>
+<% else %>
+<p>No comment yet</p>
+<% end %>
 <% if(!user_signed_in?) %>
 <br><p>Please <%= link_to 'sign in', articles_path %> or <%= link_to 'sign up', articles_path %> to leave a comment</p>
 <% end %>
