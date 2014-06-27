@@ -17,23 +17,23 @@
   <% @articles.each do |article| %>
     <tr>
       <td><%= article.title %></td>
-      <td><%= article.text %></td>
-      <td><%= link_to 'Show', article_path(article) %></td>
+      <td><%= article.text %><% if(article.user_id == current_user.id && article.comments.where("approved = 0").length > 0) %> <span class="badge badge-success"><%= article.comments.where("approved = 0").length %></span><% end %></td>
+      <td><a href=<%= article_path(article) %> class="btn btn-info" role="button">Show</a></td>
       <td>
-        <%=
+        <%
           if(user_signed_in?)
-            if(article.user_id == current_user.id)
-              link_to 'Edit', edit_article_path(article) 
-            end
+            if(article.user_id == current_user.id) %>
+              <a href=<%= edit_article_path(article) %> class="btn btn-success" role="button">Edit</a>
+            <% end
           end
         %>
       </td>
       <td>
-        <%= 
+        <%
           if(user_signed_in?)
-            if(article.user_id == current_user.id)
-              link_to 'Destroy', article_path(article), method: :delete, data: { confirm: 'Are you sure?' } 
-            end
+            if(article.user_id == current_user.id) %>
+              <a href=<%= article_path(article) %> class="btn btn-danger" role="button" data-method="delete" data-confirm="Are you sure?">Delete</a>
+            <% end
           end
         %></td>
     </tr>

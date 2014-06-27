@@ -7,21 +7,18 @@ if(user_signed_in?) %>
       <div class="alert alert-success">
         <p>This comment wasn't approved yet by article owner...</p>
       </div>
-    <%
-    elsif (comment.approved == 0) %>
-      <div class="alert alert-info">
-        <p><strong>Heads up!</strong> You've got a new comment.</p>
-      </div>
-    <%
-    end %>
+    <% end %>
 
     <p>
-      <strong>Commenter:</strong>
-      <%= comment.commenter %> (<%= User.find(comment.user_id).email %>)
+      <strong>
+      <% if(comment.user_id != current_user.id) %>
+      <%= comment.commenter %></strong> (<%= User.find(comment.user_id).email %>)
+      <% else %>
+      You</strong>
+      <% end %>
     </p>
  
     <p>
-      <strong>Comment:</strong>
       <%= comment.body %>
     </p>
 
@@ -29,21 +26,21 @@ if(user_signed_in?) %>
       <%
       if(user_signed_in?)
         if(comment.approved == 0 && comment.article.user_id == current_user.id) %>
-          <%=
-            link_to 'Reject', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }
-          %><br>
-        <%
-        elsif(comment.user_id == current_user.id) %>
-          <%=
-            link_to 'Delete Comment', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }
-          %><br>
+        <%= link_to 'Approve', [comment.article, comment], method: :patch, :class => 'btn btn-primary' %>
         <%
         end
       end %>
       <%
       if(user_signed_in?)
         if(comment.approved == 0 && comment.article.user_id == current_user.id) %>
-        <%= link_to 'Approve', [comment.article, comment], method: :patch %>
+          <%=
+            link_to 'Reject', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger'
+          %><br>
+        <%
+        elsif(comment.user_id == current_user.id) %>
+          <%=
+            link_to 'Delete Comment', [comment.article, comment], method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger'
+          %><br>
         <%
         end
       end %>

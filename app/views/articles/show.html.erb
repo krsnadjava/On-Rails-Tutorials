@@ -1,3 +1,10 @@
+
+<% if (@article.comments.where("approved = 0").length > 0 && @article.user_id == current_user.id) %>
+<div class="alert alert-info">
+<p><strong>Heads up!</strong> You've got a new comment.</p>
+</div>
+<% end %>
+
 <h2><%= @article.title %></h2>
  
 <p>
