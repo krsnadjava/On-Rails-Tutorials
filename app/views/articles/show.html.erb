@@ -1,16 +1,11 @@
-<p>
-	<strong>Title:</strong>
-	<%= @article.title %>
-</p>
+<h2><%= @article.title %></h2>
  
 <p>
-	<strong>Text:</strong>
-	<%= @article.text %>
+	<i>Created by : <%= User.find(@article.user_id).email %></i>
 </p>
 
 <p>
-	<strong>Owner:</strong>
-	<%= User.find(@article.user_id).email %>
+	<%= @article.text %>
 </p>
 
 <hr>

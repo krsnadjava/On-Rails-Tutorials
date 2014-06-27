@@ -47,7 +47,7 @@
               <%= menu_text "Logged in as "+current_user.email, :class => 'pull-left' %>
               <%= menu_divider %>
               <%= menu_item "Change Password", edit_user_registration_path %>
-              <%= menu_item "Sign Out", destroy_user_session_path %>
+              <%= menu_item "Sign Out", destroy_user_session_path, method: :delete %>
           <% else %>
               <%= menu_item "Sign Up", new_user_registration_path %>
               <%= menu_item "Sign In", new_user_session_path %>
@@ -69,14 +69,20 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <% @comments = Comment.all
-        if (!@comments.blank?) %>
+        <% @comments = Comment.all %>
           <div class="span3">
             <div class="well sidebar-nav">
               <ul class="nav nav-list">
                 <li class="nav-header">Comments</li>
-                <% @comments.each do |comment| %>
-                <li><strong><%= comment.article.title %></strong><br><%= comment.created_at %> | <%= comment.body %></li>
+                <% if (!@comments.blank?) %>
+                  <% @comments.each do |comment| %>
+                    <% if(comment.approved == 1) %>
+                      <hr><li><strong><%= comment.article.title %></strong><br><i><%= comment.updated_at %></i><br>
+                      <%= comment.body %></li>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <li><i>No comment yet</i></li>
                 <% end %>
               </ul>
             </div><!--/.well -->
@@ -85,12 +91,6 @@
             <%= bootstrap_flash %>
             <%= yield %>
           </div>
-        <% else %>
-          <div class="span12">
-            <%= bootstrap_flash %>
-            <%= yield %>
-          </div>
-        <% end %>
       </div><!--/row-->
 
       <footer>
