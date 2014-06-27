@@ -11,6 +11,8 @@
 	<i>Created by : <%= User.find(@article.user_id).email %></i>
 </p>
 
+<%= image_tag @article.thumbnail.url %>
+
 <p>
 	<%= @article.text %>
 </p>
