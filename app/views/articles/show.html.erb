@@ -19,7 +19,10 @@
 
 <h2>Comments</h2>
 <%= render @article.comments %>
-
+<% if(!user_signed_in?) %>
+<br><p>Please <%= link_to 'sign in', articles_path %> or <%= link_to 'sign up', articles_path %> to leave a comment</p>
+<% end %>
+<br><hr>
 <h2>Add a comment:</h2>
 <%= render "comments/form" %>
 
