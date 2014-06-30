@@ -47,3 +47,4 @@ gem 'twitter-bootstrap-rails'
 
 gem 'rmagick'
 gem 'paperclip', github: 'thoughtbot/paperclip'
+gem 'tinymce-rails'
