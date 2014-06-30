@@ -30,8 +30,8 @@ Rails.application.configure do
   config.assets.compile = false
 
   # Generate digests for assets URLs.
-  config.assets.digest = false
-  config.assets.debug = true
+  config.assets.digest = true
+
   # Version of your assets, change this if you want to expire all your assets.
   config.assets.version = '1.0'
 
@@ -77,7 +77,7 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
